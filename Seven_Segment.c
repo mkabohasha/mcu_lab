@@ -5,29 +5,37 @@
  *      Author: mkabo
  */
 #include"../LIB/STD_types.h"
+
 #include"../MCAL/DIO/DIO_types.h"
 #include"../MCAL/DIO/DIO.h"
-#include <util/delay.h>
-void Seven_Segment()
-{
-	//Seven_Segment_Intlisation();
-//	Seven_Segment_Write_Number(1);
-	DIO_SetPinDirection (PORTC,Pin7,Output);
-		DIO_SetPinValue (PORTC,Pin7,HIGH);
-		DIO_SetPortDirection(PORTA,Output);
-		while(1)
-		{
-			DIO_SetPortValue (PORTA ,0b00000011); // 0
-			_delay_ms(5000);
-			DIO_SetPortValue (PORTA ,0b10011111); //1
-			_delay_ms(5000);
-			DIO_SetPortValue (PORTA ,0b00100101); // Number 2
-		    _delay_ms(5000);
-		    DIO_SetPortValue (PORTA ,0b00001101); //Number 3
-		    _delay_ms(5000);
-			DIO_SetPortValue (PORTA ,0b10011001); // Number 4
-			_delay_ms(5000);
-		}
+#include"../LIB/Bit_Math.h"
 
+void Seven_Segment_Intlisation()
+{
+	DIO_SetPinDirection (PORTC,Pin7,Output);
+	DIO_SetPinValue (PORTC,Pin7,HIGH);
+	DIO_SetPortDirection(PORTA,Output);
+	DIO_SetPortValue (PORTA ,0b11111100);
+}
+void Seven_Segment_Write_Number(uint8 number)
+{
+	if(number < 10)
+	{
+		switch(number)
+		{
+                                        //  abcdefg
+		case 0 : DIO_SetPortValue (PORTD ,0b11111100);break;
+		case 1 : DIO_SetPortValue (PORTD ,0b10011111);break;
+		case 2 : DIO_SetPortValue (PORTD ,0b11011010);break;
+		case 3 : DIO_SetPortValue (PORTD ,0b11110010);break;
+		case 4 : DIO_SetPortValue (PORTD ,0b00000000);break;
+		case 5 : DIO_SetPortValue (PORTD ,0b00000000);break;
+		case 6 : DIO_SetPortValue (PORTD ,0b00000000);break;
+		case 7 : DIO_SetPortValue (PORTD ,0b00000000);break;
+		case 8 : DIO_SetPortValue (PORTD ,0b00000000);break;
+		case 9 : DIO_SetPortValue (PORTD ,0b00000000);break;
+
+		}
+	}
 }
 
